@@ -39,6 +39,8 @@ function signUp(event) {
       "src",
       `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
     );
+    let change5 = document.getElementById("windSpeed");
+    change5.innerHTML = `${response.data.wind.speed}`;
   }
   axios.get(apiUrl).then(showTemperature2);
 }
@@ -68,6 +70,8 @@ function handlePosition(position) {
       "src",
       `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
     );
+    let change5 = document.getElementById("windSpeed");
+    change5.innerHTML = `${response.data.wind.speed}`;
   }
 }
 
