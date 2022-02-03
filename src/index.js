@@ -59,6 +59,13 @@ function handlePosition(position) {
     let change2 = document.getElementById("changethecity");
     change2.innerHTML = ` ${response.data.name}`;
     console.log(response.data.name);
+    let change4 = document.getElementById("descriptionInfo");
+    change4.innerHTML = `${response.data.weather[0].description}`;
+    let iconElement = document.querySelector("#icon");
+    iconElement.setAttribute(
+      "src",
+      `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    );
   }
 }
 
