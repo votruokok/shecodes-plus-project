@@ -31,6 +31,8 @@ function signUp(event) {
     change.innerHTML = `${response.data.name}`;
     let change3 = document.getElementById("auto");
     change3.innerHTML = ` ${response.data.main.temp}`;
+    let change4 = document.getElementById("descriptionInfo");
+    change4.innerHTML = `${response.data.weather[0].description}`;
   }
   axios.get(apiUrl).then(showTemperature2);
 }
