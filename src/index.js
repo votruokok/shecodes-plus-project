@@ -30,7 +30,8 @@ function signUp(event) {
     let change = document.getElementById("changethecity");
     change.innerHTML = `${response.data.name}`;
     let change3 = document.getElementById("auto");
-    change3.innerHTML = ` ${response.data.main.temp}`;
+    CTemp = response.data.main.temp;
+    change3.innerHTML = ` ${Math.round(CTemp)}`;
     let change4 = document.getElementById("descriptionInfo");
     change4.innerHTML = `${response.data.weather[0].description}`;
     let iconElement = document.querySelector("#icon");
@@ -55,7 +56,8 @@ function handlePosition(position) {
   function showTemperature(response) {
     console.log(response.data.main.temp);
     let change1 = document.getElementById("auto");
-    change1.innerHTML = ` ${response.data.main.temp}`;
+    CTemp = response.data.main.temp;
+    change1.innerHTML = ` ${Math.round(CTemp)}`;
     let change2 = document.getElementById("changethecity");
     change2.innerHTML = ` ${response.data.name}`;
     console.log(response.data.name);
@@ -74,3 +76,19 @@ function show() {
 }
 let current1 = document.getElementById("location");
 current1.addEventListener("click", show);
+let fLink = document.getElementById("fahrenheit");
+fLink.addEventListener("click", showfLink);
+function showfLink(event) {
+  event.preventDefault();
+  let nhietdo = document.getElementById("auto");
+  let doiDonVi = (CTemp * 9) / 5 + 32;
+  nhietdo.innerHTML = Math.round(doiDonVi);
+}
+let CTemp = null;
+let cLink = document.getElementById("celsius");
+cLink.addEventListener("click", showcLink);
+function showcLink(event) {
+  event.preventDefault();
+  let nhietdo = document.getElementById("auto");
+  nhietdo.innerHTML = Math.round(CTemp);
+}
