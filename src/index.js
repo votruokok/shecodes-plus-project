@@ -33,6 +33,11 @@ function signUp(event) {
     change3.innerHTML = ` ${response.data.main.temp}`;
     let change4 = document.getElementById("descriptionInfo");
     change4.innerHTML = `${response.data.weather[0].description}`;
+    let iconElement = document.querySelector("#icon");
+    iconElement.setAttribute(
+      "src",
+      `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    );
   }
   axios.get(apiUrl).then(showTemperature2);
 }
