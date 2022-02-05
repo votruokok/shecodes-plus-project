@@ -3,14 +3,15 @@ let hour = now.getHours();
 let date = now.getDay();
 let minute = now.getMinutes();
 let day = [
+  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
+
 if (minute < 10) {
   minute = `0${minute}`;
 }
@@ -96,3 +97,22 @@ function showcLink(event) {
   let nhietdo = document.getElementById("auto");
   nhietdo.innerHTML = Math.round(CTemp);
 }
+function displayForecast() {
+  let forecastElement = document.getElementById("forecast");
+
+  let forecastHTML = `<div class="row">`;
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thurs"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col" id=forecast1>
+        <div class="date1">${day}</div>
+        <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" width="42"/> 
+        <div class=nhiet><span class="temperatureMax1">18°</span><span class="temperatureMin1"> 12°</span></div>
+    </div>`;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+displayForecast();
