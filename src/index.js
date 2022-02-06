@@ -11,7 +11,6 @@ let day = [
   "Friday",
   "Saturday",
 ];
-
 if (minute < 10) {
   minute = `0${minute}`;
 }
@@ -31,8 +30,9 @@ function signUp(event) {
     let change = document.getElementById("changethecity");
     change.innerHTML = `${response.data.name}`;
     let change3 = document.getElementById("auto");
-    CTemp = response.data.main.temp;
-    change3.innerHTML = ` ${Math.round(CTemp)}`;
+    change3.innerHTML = ` ${Math.round(response.data.main.temp)}`;
+    getForecast(response.data.coord);
+    console.log(response.data.coord);
     let change4 = document.getElementById("descriptionInfo");
     change4.innerHTML = `${response.data.weather[0].description}`;
     let iconElement = document.querySelector("#icon");
@@ -42,6 +42,7 @@ function signUp(event) {
     );
     let change5 = document.getElementById("windSpeed");
     change5.innerHTML = `${response.data.wind.speed}`;
+    CTemp = response.data.main.temp;
   }
   axios.get(apiUrl).then(showTemperature2);
 }
@@ -59,8 +60,7 @@ function handlePosition(position) {
   function showTemperature(response) {
     console.log(response.data.main.temp);
     let change1 = document.getElementById("auto");
-    CTemp = response.data.main.temp;
-    change1.innerHTML = ` ${Math.round(CTemp)}`;
+    change1.innerHTML = ` ${Math.round(response.data.main.temp)}`;
     let change2 = document.getElementById("changethecity");
     change2.innerHTML = ` ${response.data.name}`;
     console.log(response.data.name);
@@ -81,6 +81,46 @@ function show() {
 }
 let current1 = document.getElementById("location");
 current1.addEventListener("click", show);
+
+function getForecast(coord) {
+  let apiKey = "95347d69c666aa08d70147c39110bcb4";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+function formatForecastDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  return days[day];
+}
+
+function displayForecast(response) {
+  console.log(response.data.daily);
+  let forecast = response.data.daily;
+  let forecastElement = document.getElementById("forecast");
+  let forecastHTML = `<div class="row">`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="col" id=forecast1>
+        <div class="date1">${formatForecastDay(forecastDay.dt)}</div>
+        <img src="https://openweathermap.org/img/wn/${
+          forecastDay.weather[0].icon
+        }@2x.png" alt="" width="42"/> 
+        <div class=nhiet><span class="temperatureMax1">${Math.round(
+          forecastDay.temp.max
+        )}°</span><span class="temperatureMin1">  ${Math.round(
+          forecastDay.temp.min
+        )}°</span></div>
+    </div>`;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
 let fLink = document.getElementById("fahrenheit");
 fLink.addEventListener("click", showfLink);
 function showfLink(event) {
@@ -97,22 +137,3 @@ function showcLink(event) {
   let nhietdo = document.getElementById("auto");
   nhietdo.innerHTML = Math.round(CTemp);
 }
-function displayForecast() {
-  let forecastElement = document.getElementById("forecast");
-
-  let forecastHTML = `<div class="row">`;
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thurs"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `<div class="col" id=forecast1>
-        <div class="date1">${day}</div>
-        <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" width="42"/> 
-        <div class=nhiet><span class="temperatureMax1">18°</span><span class="temperatureMin1"> 12°</span></div>
-    </div>`;
-  });
-  forecastHTML = forecastHTML + `</div>`;
-  forecastElement.innerHTML = forecastHTML;
-}
-
-displayForecast();
